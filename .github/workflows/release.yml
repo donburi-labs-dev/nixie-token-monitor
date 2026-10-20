@@ -1,9 +1,12 @@
 name: release
 
-# Push a tag like v0.1.1 to build ccnixie-hook.exe from source and attach it to a GitHub Release.
+# Builds ccnixie-hook.exe from source and attaches it to a GitHub Release.
+# Trigger: push a tag like v0.1.1, or publish a release (which creates the tag).
 on:
   push:
     tags: ["v*"]
+  release:
+    types: [published]
 
 permissions:
   contents: write
@@ -24,6 +27,7 @@ jobs:
           cd ../dist && sha256sum ccnixie-hook.exe > ccnixie-hook.exe.sha256
       - uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ github.event.release.tag_name || github.ref_name }}
           files: |
             dist/ccnixie-hook.exe
             dist/ccnixie-hook.exe.sha256
