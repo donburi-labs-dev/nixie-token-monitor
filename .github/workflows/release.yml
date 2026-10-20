@@ -1,0 +1,30 @@
+name: release
+
+# Push a tag like v0.1.1 to build ccnixie-hook.exe from source and attach it to a GitHub Release.
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.24"
+      - name: Build
+        working-directory: backend
+        run: |
+          go vet ./...
+          GOOS=windows GOARCH=amd64 go build -trimpath -ldflags "-s -w" -o ../dist/ccnixie-hook.exe .
+          cd ../dist && sha256sum ccnixie-hook.exe > ccnixie-hook.exe.sha256
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/ccnixie-hook.exe
+            dist/ccnixie-hook.exe.sha256
+          generate_release_notes: true
