@@ -9,6 +9,8 @@ program (`ccnixie-hook.exe`) that the widget needs.
 
 日本語の説明は [README.ja.md](README.ja.md) にあります。
 
+![Nixie Token Monitor on a XENEON EDGE](docs/widget.png)
+
 > Not affiliated with or endorsed by Anthropic, CORSAIR or Elgato.
 > "Claude" and "Claude Code" are trademarks of Anthropic.
 

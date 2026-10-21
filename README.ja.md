@@ -11,6 +11,8 @@ XENEON EDGE（iCUE）用ウィジェット **Nixie Token Monitor** のための�
 ウィジェット本体は Elgato Marketplace で配布しています。このリポジトリには、ウィジェットに必要な
 小さなプログラム（`ccnixie-hook.exe`）が入っています。
 
+![XENEON EDGE に表示した Nixie Token Monitor](docs/widget.png)
+
 > Anthropic、CORSAIR、Elgato とは関係ありません。「Claude」「Claude Code」は Anthropic の商標です。
 
 ## 必要なもの
