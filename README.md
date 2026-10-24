@@ -40,13 +40,13 @@ Check that everything works:
 & "$HOME\.claude\icue\ccnixie-hook.exe" status
 ```
 
-`8/8 events registered` and a recent `updated` time mean you are done.
+`9/9 events registered` and a recent `updated` time mean you are done.
 
 ## What `install` changes
 
 - Copies itself to `%USERPROFILE%\.claude\icue\ccnixie-hook.exe`.
 - Adds one hook entry to each of these events in `%USERPROFILE%\.claude\settings.json`:
-  `SessionStart`, `UserPromptSubmit`, `PreToolUse`, `PostToolUse`, `Notification`,
+  `SessionStart`, `UserPromptSubmit`, `PreToolUse`, `PostToolUse`, `PermissionRequest`, `Notification`,
   `SubagentStop`, `Stop`, `SessionEnd`.
 - Your other settings and hooks are kept as they are, in the same order.
 - A backup is written next to it first: `settings.json.ccnixie-bak-YYYYMMDD-HHMMSS`.

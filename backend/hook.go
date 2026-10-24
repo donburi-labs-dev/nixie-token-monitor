@@ -39,6 +39,7 @@ type Session struct {
 	Tok     int64  `json:"tok"`
 	Start   int64  `json:"start"`
 	Last    int64  `json:"last"`
+	LastE   string `json:"le,omitempty"` // last hook event of this session
 }
 
 type LastEv struct {
@@ -94,14 +95,15 @@ func notificationStatus(ev HookEvent) string {
 }
 
 var statusOf = map[string]string{
-	"SessionStart":     "idle",
-	"UserPromptSubmit": "think",
-	"PreToolUse":       "tool",
-	"PostToolUse":      "think",
-	"SubagentStop":     "think",
-	"Notification":     "wait",
-	"Stop":             "idle",
-	"PreCompact":       "think",
+	"SessionStart":      "idle",
+	"UserPromptSubmit":  "think",
+	"PreToolUse":        "tool",
+	"PostToolUse":       "think",
+	"SubagentStop":      "think",
+	"PermissionRequest": "wait", // fires the moment the permission dialog appears
+	"Notification":      "wait",
+	"Stop":              "idle",
+	"PreCompact":        "think",
 }
 
 func baseDir() string {
@@ -194,12 +196,19 @@ func runHook() {
 		s.Tok += d.Sum()
 		s.Last = t
 		if ev.Name == "Notification" {
-			s.Status = notificationStatus(ev)
+			ns := notificationStatus(ev)
+			// The permission Notification arrives ~8 s after the dialog. If the tool already
+			// finished (the user approved meanwhile), it must not turn the alert back on.
+			if ns == "wait" && s.LastE != "PreToolUse" && s.LastE != "PermissionRequest" && s.LastE != "Notification" {
+				ns = s.Status
+			}
+			s.Status = ns
 		} else if v, ok := statusOf[ev.Name]; ok {
 			s.Status = v
 		}
+		s.LastE = ev.Name
 		switch ev.Name {
-		case "PreToolUse":
+		case "PreToolUse", "PermissionRequest":
 			s.Tool = ev.ToolName
 		case "Stop", "UserPromptSubmit", "SessionStart":
 			s.Tool = ""
@@ -262,7 +271,7 @@ type tLine struct {
 	Message   struct {
 		ID    string `json:"id"`
 		Usage struct {
-			In int64 `json:"input_tokens"`
+			In  int64 `json:"input_tokens"`
 			Out int64 `json:"output_tokens"`
 			CW  int64 `json:"cache_creation_input_tokens"`
 			CR  int64 `json:"cache_read_input_tokens"`

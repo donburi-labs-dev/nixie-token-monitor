@@ -41,13 +41,13 @@ XENEON EDGE（iCUE）用ウィジェット **Nixie Token Monitor** のための�
 & "$HOME\.claude\icue\ccnixie-hook.exe" status
 ```
 
-`8/8 events registered` と表示され、`updated` の時刻が新しければ完了です。
+`9/9 events registered` と表示され、`updated` の時刻が新しければ完了です。
 
 ## `install` が行うこと
 
 - 自分自身を `%USERPROFILE%\.claude\icue\ccnixie-hook.exe` にコピーします。
-- `%USERPROFILE%\.claude\settings.json` の次の8つのイベントに、フックを1件ずつ追加します。
-  `SessionStart`、`UserPromptSubmit`、`PreToolUse`、`PostToolUse`、`Notification`、
+- `%USERPROFILE%\.claude\settings.json` の次の9つのイベントに、フックを1件ずつ追加します。
+  `SessionStart`、`UserPromptSubmit`、`PreToolUse`、`PostToolUse`、`PermissionRequest`、`Notification`、
   `SubagentStop`、`Stop`、`SessionEnd`
 - ほかの設定やフックは、並び順も含めてそのまま残します。
 - 書き換える前に、控え（`settings.json.ccnixie-bak-日時`）を作ります。

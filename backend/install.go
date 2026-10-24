@@ -2,8 +2,8 @@ package main
 
 import (
 	"bufio"
-	"errors"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -15,9 +15,9 @@ import (
 
 var hookEvents = []string{
 	"SessionStart", "UserPromptSubmit", "PreToolUse", "PostToolUse",
-	"Notification", "SubagentStop", "Stop", "SessionEnd",
+	"PermissionRequest", "Notification", "SubagentStop", "Stop", "SessionEnd",
 }
-var toolEvents = map[string]bool{"PreToolUse": true, "PostToolUse": true}
+var toolEvents = map[string]bool{"PreToolUse": true, "PostToolUse": true, "PermissionRequest": true}
 
 // entries we own (current exe, and the earlier Python prototype)
 func isOurs(cmd string) bool {
